@@ -1,35 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"go-stock-tracker/internal"
+	"log"
 )
 
 func main() {
 
-	apiKey, err := GetKey()
+	price, err := internal.GetPreviousClose("AAPL")
 	if err != nil {
-		fmt.Println("error during key retrieval", err)
+		log.Fatalf("error retrieving the price")
 	}
-
-	url, err := BuildURLWithAPIKey("AAPL", "2023-08-10", "2023-08-10", apiKey)
-	fmt.Println(url)
-	if err != nil {
-		fmt.Println("can't format url", err)
-	}
-
-	responseStream, err := MakeAPIRequest(url, apiKey)
-	if err != nil {
-		fmt.Println("error querying api", err)
-	}
-
-	response, err := ParseAPIResponse(responseStream)
-
-	results := response.Results
-
-	for i := range len(results) {
-		fmt.Println("volume: ", results[i].Volume)
-	}
-	for _, r := range results {
-		fmt.Println("high", r.High, "low", r.Low, "date", r.Timestamp)
-	}
+	closePrice := price.Results[0].Close
+	log.Println("AAPL close price", closePrice)
 }

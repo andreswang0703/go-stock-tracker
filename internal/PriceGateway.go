@@ -2,21 +2,25 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	polygon "github.com/polygon-io/client-go/rest"
 	"github.com/polygon-io/client-go/rest/models"
 	"os"
 )
 
 func GetPreviousCloseForTickers(tickers []string) ([]*models.GetPreviousCloseAggResponse, error) {
-	var res []*models.GetPreviousCloseAggResponse
+	var list []*models.GetPreviousCloseAggResponse
 	for _, ticker := range tickers {
 		response, err := GetPreviousClose(ticker)
 		if err != nil {
-			return res, err
+			return nil, err
 		}
-		res = append(res, response)
+		if response.Status != "OK" {
+			return nil, fmt.Errorf("failed to retrieve response")
+		}
+		list = append(list, response)
 	}
-	return res, nil
+	return list, nil
 }
 
 func GetPreviousClose(ticker string) (*models.GetPreviousCloseAggResponse, error) {

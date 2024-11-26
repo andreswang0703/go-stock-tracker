@@ -6,11 +6,8 @@ import (
 )
 
 func main() {
-
-	price, err := internal.GetPreviousClose("AAPL")
+	err := internal.NotifyClosePrice()
 	if err != nil {
-		log.Fatalf("error retrieving the price")
+		log.Fatal("failed to notify closing price", err)
 	}
-	closePrice := price.Results[0].Close
-	log.Println("AAPL close price", closePrice)
 }

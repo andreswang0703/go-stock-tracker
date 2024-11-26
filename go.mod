@@ -2,8 +2,6 @@ module go-stock-tracker
 
 go 1.23.0
 
-require gopkg.in/yaml.v2 v2.4.0
-
 require (
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-playground/form/v4 v4.2.1 // indirect

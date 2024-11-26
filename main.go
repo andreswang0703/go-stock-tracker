@@ -1,13 +1,19 @@
 package main
 
 import (
+	"context"
+	"github.com/aws/aws-lambda-go/lambda"
 	"go-stock-tracker/internal"
-	"log"
 )
 
 func main() {
+	lambda.Start(handler)
+}
+
+func handler(ctx context.Context) error {
 	err := internal.NotifyClosePrice()
 	if err != nil {
-		log.Fatal("failed to notify closing price", err)
+		return err
 	}
+	return nil
 }
